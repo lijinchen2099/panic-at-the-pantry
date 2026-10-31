@@ -68,13 +68,23 @@ stretching the artwork. Capture mode does not save changes to player progress.
 
 ## Submission status
 
-The app record, description, support/marketing links and five screenshots were
-prepared in App Store Connect. Distribution signing identities and the app's
-profile were created with the account holder's authorization. The local signed
-package passed verification. Upload authentication, remaining app information,
-age rating, pricing, privacy publication, review contact and final review/release
-must be completed in App Store Connect before the game is available to customers.
-Check App Store Connect for the authoritative current status.
+Version **1.0 (2)** was submitted to Apple on **October 31, 2026 at 11:40 AM
+(GMT+8)**. App Store Connect confirmed **Waiting for Review**. Submission ID:
+`0d210fec-0c57-457a-a4e6-824bdbf65495`.
+
+The signed universal package passed local signature, provisioning profile and
+sandbox checks, then Apple's upload processing. The submission includes the
+description, support/marketing links, five screenshots, review contact, age
+rating and confirmed encryption declaration. The **Data Not Collected** privacy
+declaration is published. The calculated global age rating is **13+**, with
+regional variations assigned by Apple.
+
+The account holder authorized submission and **automatic release after Apple
+approval**. Pricing is **free**, with public availability in all **175** selected
+countries and regions. The game is awaiting review and is not yet available on
+the store; the website continues to say "Coming soon". Check
+[App Store Connect](https://appstoreconnect.apple.com/apps/6829105510/distribution/reviewsubmissions/details/0d210fec-0c57-457a-a4e6-824bdbf65495)
+for the authoritative current status.
 
 ## Official references
 

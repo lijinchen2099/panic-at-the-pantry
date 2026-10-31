@@ -232,11 +232,13 @@ includes a [privacy policy](https://lijinchen2099.github.io/panic-at-the-pantry/
 and [support page](https://lijinchen2099.github.io/panic-at-the-pantry/support.html).
 Its source is in `website/`; GitHub Actions publishes changes to GitHub Pages.
 
-The first free Mac App Store release is being prepared as version **1.0**.
+The first free Mac App Store release, version **1.0 (2)**, was submitted to Apple
+on October 31, 2026 and is **Waiting for Review**. It is configured to release
+automatically after approval.
 The **Mac App Store** export preset builds a sandboxed universal package for
 macOS 13 or later. Distribution certificates and provisioning profiles stay
 local. See [the release guide](docs/APP_STORE.md) for the signing and screenshot
-commands. Store availability follows upload, Apple review, and release approval.
+commands and the submission record. Store availability follows Apple approval.
 
 ## Credits
 

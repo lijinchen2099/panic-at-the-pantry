@@ -19,5 +19,9 @@
   "review_notes": "Native offline single-player Mac game. No sign-in, network access, ads, subscriptions, or in-app purchases. The interface is English. Keyboard controls can be changed in Options > Keyboard. Default keys: arrows move; Space/Z double-jump; hold F to shoot; D dash; G parry pink food; Q energy ball when the five-card meter is full; Esc pause; H/F1 help; B boss selection. Fullscreen is the default; F11 toggles windowed mode. Bosses 1–4 are immediately playable. Defeat all four on Spicy to unlock Chef Pepperpot; Cozy/Regular victories do not count. Chef Pepperpot always uses Spicy difficulty. Progress and preferences are saved locally. The app uses only its App Sandbox container and does not need network, microphone, camera, or user-selected file entitlements.",
   "privacy_declaration": "No data collected by the game. Local preferences, progress, and best results stay on the player’s Mac.",
   "calculated_age_rating": "13+ globally, with regional variations assigned by Apple",
-  "release_mode": "manual_pending_owner_review"
+  "release_mode": "automatic_after_approval",
+  "submission_status": "Waiting for Review",
+  "submitted_at": "2026-10-31T11:40:00+08:00",
+  "submission_id": "0d210fec-0c57-457a-a4e6-824bdbf65495",
+  "availability": "Public, free in all 175 selected countries and regions after approval"
 }
