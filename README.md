@@ -225,6 +225,19 @@ a physical 4K monitor requires that monitor; the connected display is 1080p/120 
 On the M4, all 15 profiles passed: 120.1–285.4 fps on average, with a worst
 95th-percentile frame time of 8.806 ms. See `docs/TECHNOLOGY.md` for test conditions.
 
+## Website and Mac App Store release
+
+The public [game website](https://lijinchen2099.github.io/panic-at-the-pantry/)
+includes a [privacy policy](https://lijinchen2099.github.io/panic-at-the-pantry/privacy.html)
+and [support page](https://lijinchen2099.github.io/panic-at-the-pantry/support.html).
+Its source is in `website/`; GitHub Actions publishes changes to GitHub Pages.
+
+The first free Mac App Store release is being prepared as version **1.0**.
+The **Mac App Store** export preset builds a sandboxed universal package for
+macOS 13 or later. Distribution certificates and provisioning profiles stay
+local. See [the release guide](docs/APP_STORE.md) for the signing and screenshot
+commands. Store availability follows upload, Apple review, and release approval.
+
 ## Credits
 
 Game, characters, vector art, music, and effects were created for this project.

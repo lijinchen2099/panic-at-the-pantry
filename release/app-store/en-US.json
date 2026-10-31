@@ -1,0 +1,23 @@
+{
+  "name": "Panic at the Pantry",
+  "subtitle": "A five-course cartoon showdown",
+  "app_store_id": "6829105510",
+  "bundle_id": "com.breakfastclub.panicatthepantry",
+  "sku": "panic-at-the-pantry-macos",
+  "version": "1.0",
+  "build_number": "2",
+  "price": "Free",
+  "primary_category": "Games",
+  "game_subcategories": ["Action", "Adventure"],
+  "promotional_text": "Five courses. One brave little egg. Jump, dash, parry, and shoot through an original cartoon kitchen adventure. Play offline with no ads or in-app purchases.",
+  "description": "Breakfast fights back.\n\nMeet Sunny: a little egg with a chef’s beret, a finger gun, and a very big kitchen problem. Take on five larger-than-life bosses in an original cartoon action adventure for Mac.\n\nA FIVE-COURSE FOOD FIGHT\nFace Baron von Toast, Duke de Blend, Madame Whistle, and Sir Sizzle. Earn Spicy victories against all four to unlock the final showdown with Chef Pepperpot. Every boss has distinct attacks and a faster second phase.\n\nSMALL HERO, BIG MOVES\nDouble-jump over danger, dash through trouble, parry pink food, and charge a powerful energy ball. Learn which attacks can be destroyed and which shielded attacks you must dodge.\n\nCHOOSE YOUR HEAT\nPlay the first four bosses on Cozy, Regular, or Spicy. The final Chef encounter is always Spicy. Your unlock progress and best results are saved on your Mac.\n\nMADE FOR YOUR MAC\nEnjoy original vector artwork, a swing soundtrack, keyboard controls you can customize, and fullscreen or windowed play.\n\nPlay offline. No game account, advertising, subscriptions, or in-app purchases. The game interface is currently in English.",
+  "keywords": "boss,battle,cartoon,kitchen,platformer,arcade,offline,singleplayer,parry,action,egg,adventure",
+  "support_url": "https://lijinchen2099.github.io/panic-at-the-pantry/support.html",
+  "marketing_url": "https://lijinchen2099.github.io/panic-at-the-pantry/",
+  "privacy_url": "https://lijinchen2099.github.io/panic-at-the-pantry/privacy.html",
+  "copyright": "2026 Zhenyu Li",
+  "review_notes": "Native offline single-player Mac game. No sign-in, network access, ads, subscriptions, or in-app purchases. The interface is English. Keyboard controls can be changed in Options > Keyboard. Default keys: arrows move; Space/Z double-jump; hold F to shoot; D dash; G parry pink food; Q energy ball when the five-card meter is full; Esc pause; H/F1 help; B boss selection. Fullscreen is the default; F11 toggles windowed mode. Bosses 1–4 are immediately playable. Defeat all four on Spicy to unlock Chef Pepperpot; Cozy/Regular victories do not count. Chef Pepperpot always uses Spicy difficulty. Progress and preferences are saved locally. The app uses only its App Sandbox container and does not need network, microphone, camera, or user-selected file entitlements.",
+  "privacy_declaration": "No data collected by the game. Local preferences, progress, and best results stay on the player’s Mac.",
+  "calculated_age_rating": "13+ globally, with regional variations assigned by Apple",
+  "release_mode": "manual_pending_owner_review"
+}

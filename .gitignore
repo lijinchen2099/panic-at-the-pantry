@@ -4,3 +4,9 @@ build/
 output/
 *.log
 .DS_Store
+*.p8
+*.p12
+*.key
+*.pem
+*.mobileprovision
+*.provisionprofile
