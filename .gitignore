@@ -1,0 +1,6 @@
+.tools/
+game/.godot/
+build/
+output/
+*.log
+.DS_Store
