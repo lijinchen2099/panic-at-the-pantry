@@ -14,7 +14,8 @@ boss selection. Choose a boss by clicking its button, pressing **1 / 2 / 3 / 4 /
 or using the **left / right arrows**. Press **Enter** or click **Play** to fight.
 Options contains saved keyboard bindings, difficulty, sound, and fullscreen settings.
 Click a key in **Options → Keyboard**, then press its replacement. Occupied keys swap;
-**Reset Keys** restores defaults. Menu shortcuts stay fixed. Press **H** for optional
+**Reset Keys** restores defaults. Fullscreen is the default; Options and **F11**
+can switch to a window, and that choice is saved. Menu shortcuts stay fixed. Press **H** for optional
 controls help; opening help during combat pauses the fight. Press **F11** for fullscreen. No account, internet
 connection, or additional runtime is needed to play the built app.
 
@@ -133,7 +134,10 @@ best-time records for each course. All interactions are available from the keybo
 
 Godot **4.7.2 stable**, native **Metal** rendering, a 1600 × 900 design canvas,
 HiDPI support, antialiased vector graphics, and 120 Hz gameplay simulation.
-The artwork scales with the window and fullscreen display. The built app uses a
+Static scenery is rendered once at the current output resolution and reused;
+changing boss or resizing the window refreshes it. Characters and effects remain
+live vector graphics. Native ellipse drawing and reused panel styles reduce
+per-frame CPU work. The artwork scales with the window and fullscreen display. The built app uses a
 universal binary supporting Apple Silicon and Intel; this build was tested on
 the user's M4 Mac. Intel hardware has not been tested.
 
@@ -154,6 +158,7 @@ Main files:
 
 - `game/scripts/main.gd`: input, fixed-step combat, menu, HUD, and effects.
 - `game/scripts/art.gd`: original vector characters and kitchen illustration.
+- `game/scripts/stage_cache.gd`: full-resolution scenery cache, refreshed on boss or output-size changes.
 - `game/project.godot`: display, graphics, audio, and project settings.
 - `tools/make_audio.py`: reproducible original music and sound generation (NumPy).
 - `game/tests/combat_test.gd`: movement, controls, bullet collisions, and combat checks.
@@ -167,6 +172,8 @@ Main files:
 - `game/tests/chef_test.gd`: Spicy-only unlock, partial progress, saved records, entry restrictions, and the Chef fight.
 - `game/tests/jump_test.gd`: double jumps, landing, variable height, and dash/parry interactions.
 - `game/tests/options_test.gd`: main menu, saved keyboard settings, remapped combat, and clean quitting.
+- `game/tests/render_cache_test.gd`: native 4K scenery equality, cache invalidation, and bounded render-target reuse.
+- `game/tests/performance_test.gd`: real 3840 × 2160 Metal benchmark across all bosses, phases, and 450-particle stress scenes.
 
 Run the gameplay checks from this folder:
 
@@ -198,6 +205,25 @@ Run the gameplay checks from this folder:
 Settings and records are stored locally in
 `~/Library/Application Support/Godot/app_userdata/Panic at the Pantry/pantry.cfg`.
 Self-tests do not write settings or records.
+
+Run the rendering checks with the native Metal renderer, without `--headless`:
+
+```sh
+.tools/Godot.app/Contents/MacOS/Godot --audio-driver Dummy \
+  --path game --script res://tests/render_cache_test.gd -- --self-test
+.tools/Godot.app/Contents/MacOS/Godot --audio-driver Dummy \
+  --path game --script res://tests/performance_test.gd -- --self-test
+```
+
+The benchmark renders the game and its background into actual 3840 × 2160
+textures, with the configured 4× antialiasing, and previews that output in a
+smaller window. Each of 15 scenarios must average at least 60 fps and keep its
+95th-percentile frame time within 16.67 ms. Results go to
+`build/performance-4k.json`; a native 4K screenshot goes to `build/combat-4k.png`.
+This verifies rendering throughput on the tested Mac. Testing presentation on
+a physical 4K monitor requires that monitor; the connected display is 1080p/120 Hz.
+On the M4, all 15 profiles passed: 120.1–285.4 fps on average, with a worst
+95th-percentile frame time of 8.806 ms. See `docs/TECHNOLOGY.md` for test conditions.
 
 ## Credits
 

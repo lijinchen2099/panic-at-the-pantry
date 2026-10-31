@@ -82,7 +82,41 @@ with further increases in speed and frequency. Both phases use these settings.
 
 The built app uses Godot's built-in ad-hoc signing. Broader distribution would
 need compatibility testing and an Apple Developer signing/notarization workflow.
-There are no measured claims about 4K frame rate or untested hardware.
+Intel hardware has not been performance-tested.
+
+## Rendering optimization — 31 October 2026
+
+The original tea-room wallpaper regenerated hundreds of 49-vertex ellipse
+polygons inside the full-scene draw call every frame. A local 4K stress test
+measured 8.7 fps before optimization. The update:
+
+- Renders scenery into one reusable SubViewport at the exact output resolution,
+  with the existing 4× MSAA, then disables updates until the boss or pixel size changes.
+- Uses native ellipse primitives for characters and scenery instead of rebuilding
+  polygon points and triangulating each ellipse in GDScript.
+- Reuses rounded-panel styles instead of allocating them on every draw.
+- Requests redraws per rendered frame while retaining the 120 Hz gameplay simulation.
+
+The native render-cache test compares every pixel of all five cached 4K
+backgrounds with direct vector rendering, and checks boss changes, resizing,
+one-shot rendering, and reuse of a single render target. The performance test
+renders all five bosses in both phases and with 450 particles into a verified
+3840 × 2160 target. V-sync is disabled for measurement; each profile has a
+1.25-second warm-up followed by four seconds of samples. Passing requires
+at least 60 fps on average and a 95th-percentile frame time no greater than
+16.67 ms. Benchmark artifacts are saved under `build/`.
+
+The test machine is Apple M4, 10 GPU cores, 16 GB unified memory, running
+macOS 27.2. Its connected monitor is 1920 × 1080 at 120 Hz. The benchmark uses
+real 4K GPU render targets and a scaled preview; physical 4K display presentation
+and other hardware are outside this measurement.
+
+Measured results: all 15 profiles passed, with averages of **120.1–285.4 fps**.
+The worst 95th-percentile frame time was **8.806 ms** and the worst 99th-percentile
+frame time was **12.272 ms**. The 450-particle stress profiles averaged at least
+120.1 fps. The tea-room stress profile improved from 8.7 to 161.4 fps.
+The original and optimized stress samples used two and four seconds respectively,
+so these figures describe these local runs rather than a hardware-wide guarantee.
 
 ## Primary sources
 

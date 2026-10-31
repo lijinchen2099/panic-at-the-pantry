@@ -43,6 +43,17 @@ func _run() -> void:
 	game.test_mode = true
 	root.add_child(game)
 	game.set_physics_process(false)
+	var save_path = "/private/tmp/pantry-options-test-%d.cfg" % OS.get_process_id()
+	var fresh = ConfigFile.new()
+	fresh.save(save_path)
+	game._load_settings(save_path)
+	check(game.fullscreen_enabled, "New profiles default to fullscreen")
+	game.fullscreen_enabled = false
+	game._save_settings(save_path)
+	game.fullscreen_enabled = true
+	game._load_settings(save_path)
+	check(not game.fullscreen_enabled, "An explicit windowed preference survives loading")
+	game.fullscreen_enabled = true
 	game.selected_level = 1
 	game.difficulty = 1
 	game._sync_boss_selector()
@@ -78,7 +89,6 @@ func _run() -> void:
 		await click(game.binding_buttons[action])
 		key(custom[action])
 		check(game.key_bindings[action] == custom[action] and game.binding_action.is_empty(), "Custom key takes effect for " + action)
-	var save_path = "/private/tmp/pantry-options-test-%d.cfg" % OS.get_process_id()
 	game.best_time = 31.5
 	game.spicy_clears.assign([true, false, true, false])
 	game._save_settings(save_path)

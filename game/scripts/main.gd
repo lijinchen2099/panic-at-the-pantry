@@ -97,7 +97,7 @@ var difficulty = Difficulty.REGULAR
 var fight_difficulty = Difficulty.REGULAR
 var spicy_clears: Array[bool] = [false, false, false, false]
 var muted = false
-var fullscreen_enabled = false
+var fullscreen_enabled = true
 var shots: Array[Dictionary] = []
 var energy_balls: Array[Dictionary] = []
 var hazards: Array[Dictionary] = []
@@ -150,6 +150,7 @@ var binding_buttons: Dictionary = {}
 var key_bindings: Dictionary = DEFAULT_KEYS.duplicate()
 var binding_action = ""
 var binding_message = ""
+var stage_cache
 
 func _ready() -> void:
 	rng.seed = 7342
@@ -158,8 +159,8 @@ func _ready() -> void:
 	_load_settings()
 	if test_mode:
 		key_bindings = DEFAULT_KEYS.duplicate()
-	elif fullscreen_enabled:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	if DisplayServer.get_name() != "headless":
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen_enabled and not test_mode else DisplayServer.WINDOW_MODE_WINDOWED)
 	_build_boss_selector()
 	for action in ["shoot", "jump", "dash", "hit", "parry", "win", "pop", "super"]:
 		var path = "res://assets/audio/" + action + ".wav"
@@ -181,6 +182,9 @@ func _ready() -> void:
 		if not test_mode:
 			music.play()
 	_apply_mute()
+	stage_cache = preload("res://scripts/stage_cache.gd").new()
+	add_child(stage_cache)
+	_prepare_stage()
 	var preview_level = 1
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--level="):
@@ -234,7 +238,7 @@ func _load_settings(path: String = SAVE_PATH) -> void:
 		if loaded_keys.size() == DEFAULT_KEYS.size():
 			key_bindings = loaded_keys
 		muted = config.get_value("settings", "muted", false)
-		fullscreen_enabled = bool(config.get_value("settings", "fullscreen", false))
+		fullscreen_enabled = bool(config.get_value("settings", "fullscreen", true))
 		difficulty = Difficulty.REGULAR
 		var difficulty_id = str(config.get_value("settings", "difficulty_id", ""))
 		if difficulty_id.is_empty():
@@ -769,6 +773,20 @@ func start_fight(level: int = 0) -> bool:
 	_sync_boss_selector()
 	return true
 
+func _prepare_stage() -> void:
+	if not is_instance_valid(stage_cache):
+		return
+	var viewport = get_viewport()
+	# Window texture sizes include the design-canvas stretch transform in Godot;
+	# the concrete viewport size gives actual pixels without accidental supersampling.
+	var pixel_size = (viewport as Window).size if viewport is Window else (viewport as SubViewport).size
+	stage_cache.prepare(selected_level if mode == "title" else current_level, pixel_size, viewport.msaa_2d)
+
+func _process(_dt: float) -> void:
+	_prepare_stage()
+	_sync_boss_selector()
+	queue_redraw()
+
 func _physics_process(dt: float) -> void:
 	elapsed += dt
 	if mode == "title":
@@ -779,8 +797,6 @@ func _physics_process(dt: float) -> void:
 		result_time += dt
 		_update_particles(dt)
 	taps.clear()
-	_sync_boss_selector()
-	queue_redraw()
 
 func step_fight(dt: float) -> void:
 	hurt_timer = maxf(0, hurt_timer - dt)
@@ -1266,7 +1282,11 @@ func _draw_boss(level: int, p: Vector2, s: float = 1.0, preview: bool = false) -
 			chef(p, elapsed, drawn_phase, windup, hurt, defeated, s)
 
 func _draw() -> void:
-	stage(selected_level if mode == "title" else current_level)
+	var background: Texture2D = stage_cache.texture() if is_instance_valid(stage_cache) else null
+	if background != null:
+		draw_texture_rect(background, Rect2(0, 0, 1600, 900), false)
+	else:
+		stage(selected_level if mode == "title" else current_level)
 	if mode == "title":
 		if menu_page == "options":
 			_draw_options()

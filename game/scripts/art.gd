@@ -8,6 +8,7 @@ const RED = Color("cf5946")
 const GREEN = Color("315e50")
 var display_font: SystemFont
 var body_font: SystemFont
+var _box_styles: Dictionary = {}
 
 func _init() -> void:
 	display_font = SystemFont.new()
@@ -18,21 +19,24 @@ func _init() -> void:
 	body_font.font_weight = 600
 
 func box(r: Rect2, color: Color, radius: float = 12.0, border: float = 0.0, edge: Color = INK) -> void:
-	var style = StyleBoxFlat.new()
-	style.bg_color = color
-	style.set_corner_radius_all(int(radius))
-	style.set_border_width_all(int(border))
-	style.border_color = edge
+	var key = [color, edge, int(radius), int(border)]
+	var style: StyleBoxFlat = _box_styles.get(key)
+	if style == null:
+		style = StyleBoxFlat.new()
+		style.bg_color = color
+		style.set_corner_radius_all(int(radius))
+		style.set_border_width_all(int(border))
+		style.border_color = edge
+		if _box_styles.size() >= 512:
+			_box_styles.clear()
+		_box_styles[key] = style
 	draw_style_box(style, r)
 
 func oval(p: Vector2, size: Vector2, color: Color, border: float = 0.0) -> void:
-	var points = PackedVector2Array()
-	for i in range(49):
-		var a = TAU * i / 48.0
-		points.append(p + Vector2(cos(a), sin(a)) * size)
-	draw_colored_polygon(points, color)
+	# Native ellipses avoid rebuilding and triangulating 49 vertices per oval.
+	draw_ellipse(p, size.x, size.y, color)
 	if border > 0:
-		draw_polyline(points, INK, border, true)
+		draw_ellipse(p, size.x, size.y, INK, false, border, true)
 
 func line(points: Array, color: Color = INK, width: float = 5.0) -> void:
 	draw_polyline(PackedVector2Array(points), color, width, true)
